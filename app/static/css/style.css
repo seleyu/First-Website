@@ -1,45 +1,137 @@
 body {
     background-color:antiquewhite;
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .page-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    flex-direction: row;
+    height: 100vh;
     padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 #canvas {
-    width: 80vw;
+    width: 100%;
     aspect-ratio: 16 / 9;
-    background-image: url(../img/bg/blank.png);
     background-size: cover;
     background-position: center;
+    position: relative;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
 }
 
-#sticker-panel {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    background-color: #ffffffcc;
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    justify-content: center;
-    width: 80vw;
+.bg-blank {
+    background-image: url(../img/bg/blank.png);
 }
 
+.bg-day {
+    background-image: url(../img/bg/day.png);
+}
+
+.bg-night {
+    background-image: url(../img/bg/night.png);
+}
+
+.bg-dreary {
+    background-image: url(../img/bg/dreary.png);
+}
+
+.sidebar {
+    width: 180px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.btn {
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#options-panel {
+    background-color: #ffffffcc;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#sticker-panel {
+    background-color: #ffffffcc;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* in panel */
 .sticker {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     cursor: grab;
+}
+
+.sticker:hover {
+    transform: scale(1.1);
+    transition: transform 0.15s;
+}
+
+/* on canvas */
+.placed-sticker {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    cursor: move;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .page-wrapper {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #options-panel, #sticker-panel {
+        flex: 1;
+    }
+
+    .sticker {
+        width: 50px;
+        height: 50px;
+    }
 }
