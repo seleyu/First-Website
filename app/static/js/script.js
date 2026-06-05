@@ -1,5 +1,7 @@
 const canvas = document.getElementById("canvas");
 let draggedSrc = null; // store current sticker
+let dragOffsetX = 0;
+let dragOffsetY = 0;
 
 // button
 const btn = document.querySelector(".btn");
@@ -25,6 +27,8 @@ document.querySelectorAll(".sticker").forEach(sticker =>
     sticker.addEventListener("dragstart", (e) => 
     {
         draggedSrc = e.target.src;
+        dragOffsetX = e.offsetX;
+        dragOffsetY = e.offsetY;
     });
 });
 
@@ -36,19 +40,39 @@ canvas.addEventListener("dragover", (e) =>
 
 canvas.addEventListener("drop", (e) => 
 {
-    e.preventDefault
+    e.preventDefault();
 
-    const newSticker = document.createElement("img");
-    newSticker.src = draggedSrc; // use saved img path
-    newSticker.classList.add("placed-sticker");
+    if (!draggedSrc) return;
+
+    const rect = canvas.getBoundingClientRect();
 
     // position where dropped
-    newSticker.style.left = e.offsetX + "px";
-    newSticker.style.top = e.offsetY + "px";
-
-    canvas.appendChild(newSticker); // add to canvas div
-    makeDraggable(newSticker);
+    let x = e.clientX - rect.left - dragOffsetX;
+    let y = e.clientY - rect.top - dragOffsetY;
+    
+    placeSticker(draggedSrc, x, y);
 });
+
+function placeSticker(src, x, y)
+{
+    const newSticker = document.createElement("img");
+    newSticker.src = src; // use saved img path
+    newSticker.classList.add("placed-sticker");
+    canvas.appendChild(newSticker); // add to canvas div
+    
+    const sizePercent = 8;
+    newSticker.style.width = sizePercent + "%";
+    newSticker.style.height = "auto";
+
+    const clamped = withinBounds(x, y, newSticker); // can only place on canvas
+
+    // store as percent to resize with canvas
+    const percent = toPercent(clamped.x, clamped.y);
+    newSticker.style.left = percent.x + "%";
+    newSticker.style.top = percent.y + "%";
+
+    makeDraggable(newSticker);
+}
 
 // drag placed sticker
 function makeDraggable(sticker)
@@ -62,21 +86,51 @@ function makeDraggable(sticker)
         offsetX = e.offsetX;
         offsetY = e.offsetY;
         sticker.style.cursor = "grabbing";
+        sticker.style.zIndex = 10; // bring to front during drag
         e.preventDefault();
     });
 
     document.addEventListener("mousemove", (e) =>
     {
         if(!isHeld) return;
+        const rect = canvas.getBoundingClientRect();
 
-        const canvasRect = canvas.getBoundingClientRect();
-        sticker.style.left = (e.clientX - canvasRect.left - offsetX) + "px";
-        sticker.style.top = (e.clientY - canvasRect.top - offsetY) + "px";
+        let newX = e.clientX - rect.left - offsetX;
+        let newY = e.clientY - rect.top - offsetY;
+
+        const clamped = withinBounds(newX, newY, sticker);
+
+        const percent = toPercent(clamped.x, clamped.y);
+        sticker.style.left = percent.x + "%";
+        sticker.style.top = percent.y + "%";
     });
 
     document.addEventListener("mouseup", (e) =>
     {
+        if(!isHeld) return;
+
         isHeld = false;
         sticker.style.cursor = "move";
+        sticker.style.zIndex = "";
     });
+}
+
+// helpers
+function toPercent(x, y) // pixel position to percentage relative to canvas
+{
+    return { // object literal
+        x: (x/canvas.offsetWidth) * 100,
+        y: (y/canvas.offsetHeight) * 100
+    };
+}
+
+function withinBounds(x, y, sticker)
+{
+    const maxX = canvas.offsetWidth - sticker.offsetWidth;
+    const maxY = canvas.offsetHeight - sticker.offsetHeight;
+    
+    return {
+        x: Math.max(0, Math.min(x, maxX)),
+        y: Math.max(0, Math.min(y, maxY))
+    };
 }

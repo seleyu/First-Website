@@ -102,11 +102,8 @@ body {
 
 /* on canvas */
 .placed-sticker {
-    width: 80px;
-    height: 80px;
     position: absolute;
     cursor: move;
-    object-fit: contain;
 }
 
 @media (max-width: 768px) {
