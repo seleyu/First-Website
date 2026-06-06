@@ -1,5 +1,56 @@
+.hidden {
+    display: none !important;
+}
+
+/* START PAGE */
+#start-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background-color: mistyrose; 
+}
+
+#start-page h1 {
+    font-size: 4rem;
+}
+
+#start-page p {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+#start-page p2 {
+    font-size: 1rem;
+    opacity: 0.4;
+}
+
+#start-btn {
+    margin-top: 12px;
+    padding: 10px 32px;
+    border: none;
+    border-radius: 20px;
+    background-color: indianred;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+}
+
+#start-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+/* MAIN PAGE */
+#main-page {
+    height: 100vh;
+}
+
 body {
-    background-color:antiquewhite;
+    background-color: mistyrose;
     margin: 0;
     height: 100vh;
     overflow: hidden;
@@ -56,13 +107,26 @@ body {
 }
 
 .btn {
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    background-color: mistyrose;
+    color: indianred;
+    padding: 12px 28px;
+    border: 2px solid indianred;
+    border-radius: 12px;
+
     font-size: 16px;
-    margin: 4px 2px;
+    font-weight: 500;
+    text-align: center;
     cursor: pointer;
+
+    transition: background-color 0.3s ease, transform 0.1 ease;
+}
+
+.btn:hover {
+  background-color: lightpink;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 #options-panel {

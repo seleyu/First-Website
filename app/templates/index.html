@@ -10,23 +10,35 @@
 </head>
 <body>
 
-    <div class="page-wrapper">
+    <div id="start-page">
+        <h1>stickora.</h1>
+        <p>ready to decorate ?</p>
+        <button id="start-btn">start</button>
+        <p2>ver 0.1.0-alpha</p2>
+    </div>
 
-        <main class="main-content">
-            <div id="canvas" class="bg-blank"></div>
-        </main>
+    <div id="main-page" class="hidden">
 
-        <aside class="sidebar">
-            <div id="options-panel">
-                <button class="btn">Change Canvas</button>
-            </div>
-            <div id="sticker-panel">
-                <img src="{{ url_for('static', filename='img/sticker1/rose.png') }}" class="sticker" draggable="true">
-                <img src="{{ url_for('static', filename='img/sticker1/heart.png') }}" class="sticker" draggable="true">
-                <img src="{{ url_for('static', filename='img/sticker1/greenleaf.png') }}" class="sticker" draggable="true">
-                <img src="{{ url_for('static', filename='img/sticker1/mapleleaf.png') }}" class="sticker" draggable="true">
-            </div>
-        </aside>
+        <div class="page-wrapper">
+            <main class="main-content">
+                <div id="canvas" class="bg-blank"></div>
+            </main>
+
+            <aside class="sidebar">
+                <div id="options-panel">
+                    <button class="btn" id="change-bg-btn">Change Canvas</button>
+                    <button class="btn" id="clear-btn">Clear All</button>
+                    <button class="btn" id="exit-btn">Exit</button>
+                </div>
+                <div id="sticker-panel">
+                    <img src="{{ url_for('static', filename='img/sticker1/rose.png') }}" class="sticker" draggable="true">
+                    <img src="{{ url_for('static', filename='img/sticker1/heart.png') }}" class="sticker" draggable="true">
+                    <img src="{{ url_for('static', filename='img/sticker1/greenleaf.png') }}" class="sticker" draggable="true">
+                    <img src="{{ url_for('static', filename='img/sticker1/mapleleaf.png') }}" class="sticker" draggable="true">
+                </div>
+            </aside>
+        </div>
+
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

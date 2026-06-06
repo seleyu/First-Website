@@ -1,25 +1,21 @@
+// START
+const startPage = document.getElementById("start-page");
+const mainPage = document.getElementById("main-page");
+const startBtn = document.getElementById("start-btn");
+
+startBtn.addEventListener("click", (e) =>
+{
+    startPage.classList.add("hidden"); // hide start
+    mainPage.classList.remove("hidden"); // reveal main
+});
+
+// MAIN
 const canvas = document.getElementById("canvas");
 let draggedSrc = null; // store current sticker
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 
-// button
-const btn = document.querySelector(".btn");
-const bgClasses = ['bg-blank', 'bg-day', 'bg-night', 'bg-dreary'];
-let currentBgIndex = 0;
-
-btn.addEventListener("click", (e) =>
-{
-    canvas.classList.remove(bgClasses[currentBgIndex]);
-    currentBgIndex = currentBgIndex + 1;
-    
-    if(currentBgIndex >= bgClasses.length)
-    {
-        currentBgIndex = 0;
-    }
-
-    canvas.classList.add(bgClasses[currentBgIndex]);
-});
+//=== STICKER LOGIC ===
 
 // drag
 document.querySelectorAll(".sticker").forEach(sticker => 
@@ -115,7 +111,8 @@ function makeDraggable(sticker)
     });
 }
 
-// helpers
+// == STICKER HELPERS ==
+
 function toPercent(x, y) // pixel position to percentage relative to canvas
 {
     return { // object literal
@@ -134,3 +131,43 @@ function withinBounds(x, y, sticker)
         y: Math.max(0, Math.min(y, maxY))
     };
 }
+
+// == BUTTONS ==
+const changeBgBtn = document.getElementById("change-bg-btn");
+const clearBtn = document.getElementById("clear-btn");
+const exitBtn = document.getElementById("exit-btn");
+
+// change canvas button
+const bgClasses = ['bg-blank', 'bg-day', 'bg-night', 'bg-dreary'];
+let currentBgIndex = 0;
+
+changeBgBtn.addEventListener("click", (e) =>
+{
+    canvas.classList.remove(bgClasses[currentBgIndex]);
+    currentBgIndex = currentBgIndex + 1;
+    
+    if(currentBgIndex >= bgClasses.length)
+    {
+        currentBgIndex = 0;
+    }
+
+    canvas.classList.add(bgClasses[currentBgIndex]);
+});
+
+// clear all button
+clearBtn.addEventListener("click", (e) =>
+{
+    const placedStickers = canvas.querySelectorAll(".placed-sticker");
+
+    placedStickers.forEach(sticker =>
+    {
+        sticker.remove();
+    });
+});
+
+// back to start button
+exitBtn.addEventListener("click", (e) =>
+{
+    mainPage.classList.add("hidden");
+    startPage.classList.remove("hidden");
+})
